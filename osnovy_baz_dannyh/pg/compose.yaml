@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: emarket-postgres
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "5435:5432"
+
+    volumes:
+          - emarket_data:/var/lib/postgresql/data
+          - ./init_sql/01_create_emarket.sql:/docker-entrypoint-initdb.d/01_create_emarket.sql:ro
+          - ./init_sql/02_fill_emarket.sql:/docker-entrypoint-initdb.d/02_fill_emarket.sql:ro
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+    restart: unless-stopped
+
+volumes:
+  emarket_data:
