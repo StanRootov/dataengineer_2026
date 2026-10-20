@@ -1,0 +1,24 @@
+[project]
+name = "spark-boston-crimes"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Stanislav Sigitov", email = "sigitov.s@citilink.ru" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pyspark==3.5.9",
+]
+
+[project.scripts]
+spark-boston-crimes = "spark_boston_crimes:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
